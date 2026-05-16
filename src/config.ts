@@ -56,50 +56,7 @@ export const siteConfig: SiteConfig = {
 			//   sizes: '32x32',              // (Optional) Size of the favicon, set only if you have favicons of different sizes
 		},
 	],
-	apps: [
-		{
-			name: "私人AI网站",
-			url: "https://ai0728.com.cn/",
-			image: "/favicon/openwebui.webp",
-			description: "智能对话与创作助手",
-			external: true,
-		},
-		{
-			name: "私人云盘",
-			url: "https://cloudrunmax.top/",
-			image: "/favicon/cloudreve.webp",
-			description: "内容管理入口",
-			external: true,
-		},
-		{
-			name: "私人图床",
-			url: "https://image.cloudrunmax.top/",
-			image: "/favicon/imagebed.webp",
-			description: "利用CloudflareR2搭建的私人图床",
-			external: true,
-		},
-		{
-			name: "私人AI绘图",
-			url: "https://aiimage.cloudrunmax.top/",
-			image: "/favicon/aiimage.webp",
-			description: "利用CloudflareWorker搭建的私人AI绘图",
-			external: true,
-		},
-		{
-			name: "私人AI提示词",
-			url: "https://aiprompt.ai0728.com.cn/",
-			image: "/favicon/aiprompt.webp",
-			description: "个人研究的较棒AI提示词集合",
-			external: true,
-		},
-		{
-			name: "提示词优化",
-			url: "https://prompt.micostar.cc",
-			image: "/favicon/prompts.webp",
-			description: "AI 提示词一键优化工具",
-			external: true,
-		},
-	],
+	apps: [],
 };
 
 export const navBarConfig: NavBarConfig = {
