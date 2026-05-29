@@ -1,7 +1,7 @@
 ---
 title: Claude Code 终端美化指南
 published: 2026-02-26T23:02:54
-updated: 2026-05-08T11:00:51
+updated: 2026-05-28T17:07:34
 description: '习惯了 IDE 的你，面对 Claude Code 原始的终端界面是否感到不适？本篇手把手教你从状态栏到字体全面美化 Claude Code，让命令行也能赏心悦目。'
 image: '/images/ClaudeCodeBE4.webp'
 tags: [ClaudeCode, 美化, 终端]
