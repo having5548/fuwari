@@ -12,7 +12,7 @@
 
 ### 当前版本
 
-::github{repo="Besty0728/fuwari"}
+::github{repo="having5548/fuwari"}
 
 ## 网站性质
 
