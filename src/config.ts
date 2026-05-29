@@ -51,7 +51,7 @@ export const siteConfig: SiteConfig = {
 	favicon: [
 		// Leave this array empty to use the default favicon
 		{
-			src: "http://5b0988e595225.cdn.sohucs.com/images/20180728/cba732dd2f1d4a49aa483bd136b5a8b3.jpeg", // Path of the favicon, relative to the /public directory
+			src: "https://cloudflareimg.cdn.sn/i/6a19b3eef23a5_1780069358.jpg", // Path of the favicon, relative to the /public directory
 			//   theme: 'light',              // (Optional) Either 'light' or 'dark', set only if you have different favicons for light and dark mode
 			//   sizes: '32x32',              // (Optional) Size of the favicon, set only if you have favicons of different sizes
 		},
