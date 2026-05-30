@@ -62,19 +62,9 @@ export const siteConfig: SiteConfig = {
 export const navBarConfig: NavBarConfig = {
 	links: [
 		LinkPreset.Home,
-		LinkPreset.Archive,
 		LinkPreset.Friends,
 		LinkPreset.Apps,
 		LinkPreset.Donate,
-		LinkPreset.Works,
-		{
-			name: "数据",
-			children: [
-				LinkPreset.Stats,
-				LinkPreset.Status,
-				LinkPreset.Monitor,
-			],
-		},
 	],
 };
 
