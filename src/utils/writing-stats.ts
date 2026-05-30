@@ -6,7 +6,6 @@ type StatsData = {
 	totalMinutes: number;
 	avgWords: number;
 	postsByYear: { year: number; count: number }[];
-	popularPosts: { title: string; slug: string; views: number }[];
 	longestPosts: { title: string; slug: string; words: number }[];
 	allPostViews: { slug: string; views: number }[];
 };
@@ -38,20 +37,15 @@ export async function getWritingStats(): Promise<StatsData> {
 	const postsByYear = [...yearMap.entries()].sort((a, b) => b[0] - a[0]).map(([year, count]) => ({ year, count }));
 
 	let allPostViews: StatsData["allPostViews"] = [];
-	let popularPosts: StatsData["popularPosts"] = [];
 	try {
 		const viewsData = await import("../data/post-views.json");
 		allPostViews = (viewsData.default || []).map((v: { slug: string; views: number }) => ({
 			slug: v.slug, views: v.views ?? 0
 		}));
-		const slugMap = new Map(allPosts.map(p => [p.slug, p.data.title]));
-		popularPosts = allPostViews
-			.slice(0, 5)
-			.map(({ slug, views }) => ({ title: slugMap.get(slug)!, slug, views }));
 	} catch {}
 
 	const longestPosts = [...postsWithWords].sort((a, b) => b.words - a.words).slice(0, 5);
 
-	cached = { totalPosts, totalWords, totalMinutes, avgWords, postsByYear, popularPosts, longestPosts, allPostViews };
+	cached = { totalPosts, totalWords, totalMinutes, avgWords, postsByYear, longestPosts, allPostViews };
 	return cached;
 }

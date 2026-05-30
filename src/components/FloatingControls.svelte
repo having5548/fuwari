@@ -2,18 +2,16 @@
   import { onMount } from "svelte";
 
   // 排序模式
-  type SortMode = "published" | "updated" | "views";
+  type SortMode = "published" | "updated";
   const sortModes: { key: SortMode; label: string; icon: string }[] = [
     { key: "published", label: "文章创作时间", icon: "calendar" },
     { key: "updated", label: "文章更新时间", icon: "edit" },
-    { key: "views", label: "浏览量排序", icon: "fire" },
   ];
 
   let currentSortIndex = 0;
   let isBackgroundHidden = false;
   let showBackToTop = false;
   let isHomePage = false;
-  let isHotPage = false;
   let isPostPage = false;
 
   // 切换排序
@@ -21,17 +19,6 @@
     currentSortIndex = (currentSortIndex + 1) % sortModes.length;
     const mode = sortModes[currentSortIndex];
     localStorage.setItem("post-sort-mode", mode.key);
-
-    if (mode.key === "views") {
-      sessionStorage.setItem("sort-toast", `已按${mode.label}排序`);
-      window.location.href = "/hot/";
-      return;
-    }
-    if (mode.key === "published" && isHotPage) {
-      sessionStorage.setItem("sort-toast", `已按${mode.label}排序`);
-      window.location.href = "/";
-      return;
-    }
 
     sortPosts(mode.key);
     showToast(`已按${mode.label}排序（当前页）`);
@@ -55,13 +42,6 @@
 
     // 只对非置顶文章排序
     normalCards.sort((a, b) => {
-      if (mode === "views") {
-        const slugA = a.dataset.slug || "";
-        const slugB = b.dataset.slug || "";
-        const viewsA = (window as any).umamiCache?.[slugA]?.pageViews || 0;
-        const viewsB = (window as any).umamiCache?.[slugB]?.pageViews || 0;
-        return viewsB - viewsA;
-      }
       return Number(b.dataset[mode] || 0) - Number(a.dataset[mode] || 0);
     });
 
@@ -151,36 +131,23 @@
     const currentPath = window.location.pathname;
     const isCurrentHomePage =
       currentPath === "/" || /^\/(\d+|page\/\d+)\/?$/.test(currentPath);
-    const isCurrentHotPage = /^\/hot(\/\d+)?\/?$/.test(currentPath);
 
-    if (isCurrentHomePage || isCurrentHotPage) {
+    if (isCurrentHomePage) {
       isHomePage = true;
-      isHotPage = isCurrentHotPage;
       isPostPage = false;
 
-      if (isCurrentHotPage) {
-        // /hot/ 页面默认选中 views
-        currentSortIndex = sortModes.findIndex((m) => m.key === "views");
-        localStorage.setItem("post-sort-mode", "views");
-      } else {
-        const savedSort = localStorage.getItem("post-sort-mode") as SortMode | null;
-        if (savedSort === "views") {
-          // 从 /hot/ 回到首页，重置为 published
-          currentSortIndex = 0;
-          localStorage.setItem("post-sort-mode", "published");
-        } else if (savedSort && savedSort !== "published") {
-          const savedIndex = sortModes.findIndex((m) => m.key === savedSort);
-          if (savedIndex !== -1) {
-            currentSortIndex = savedIndex;
-            waitAndSort(savedSort);
-          }
-        } else {
-          currentSortIndex = 0;
+      const savedSort = localStorage.getItem("post-sort-mode") as SortMode | null;
+      if (savedSort && savedSort !== "published") {
+        const savedIndex = sortModes.findIndex((m) => m.key === savedSort);
+        if (savedIndex !== -1) {
+          currentSortIndex = savedIndex;
+          waitAndSort(savedSort);
         }
+      } else {
+        currentSortIndex = 0;
       }
     } else {
       isHomePage = false;
-      isHotPage = false;
       isPostPage = /^\/posts\//.test(currentPath);
     }
   }
@@ -196,23 +163,6 @@
         setTimeout(() => waitAndSort(mode, retries + 1), 200);
       }
       return;
-    }
-
-    // 对于浏览量排序，需要等待 umamiCache 加载
-    if (mode === "views") {
-      const cards = container.querySelectorAll('[id^="post-card-"]');
-      const hasAnyViewData = Array.from(cards).some((card) => {
-        const slug = (card as HTMLElement).dataset.slug;
-        return (
-          slug && (window as any).umamiCache?.[slug]?.pageViews !== undefined
-        );
-      });
-
-      if (!hasAnyViewData && retries < maxRetries) {
-        // 浏览量数据未加载，继续等待
-        setTimeout(() => waitAndSort(mode, retries + 1), 200);
-        return;
-      }
     }
 
     // 条件满足，执行排序
@@ -335,7 +285,6 @@
           <line x1="12" y1="11" x2="12" y2="11.01"></line>
         </svg>
       {:else}
-        <!-- 火焰图标表示热门/浏览次数 -->
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="20"
@@ -347,9 +296,11 @@
           stroke-linecap="round"
           stroke-linejoin="round"
         >
-          <path
-            d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"
-          ></path>
+          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+          <line x1="16" y1="2" x2="16" y2="6"></line>
+          <line x1="8" y1="2" x2="8" y2="6"></line>
+          <path d="M15 14l-3.5 3.5L10 16l3.5-3.5L15 14z"></path>
+          <line x1="12" y1="11" x2="12" y2="11.01"></line>
         </svg>
       {/if}
     </button>

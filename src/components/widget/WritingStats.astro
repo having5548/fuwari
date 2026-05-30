@@ -2,7 +2,6 @@
 import WidgetLayout from './WidgetLayout.astro'
 import StatsOverview from './StatsOverview.astro'
 import StatsYearlyChart from './StatsYearlyChart.astro'
-import StatsPopularPosts from './StatsPopularPosts.astro'
 import StatsTopPosts from './StatsTopPosts.astro'
 
 interface Props {
@@ -11,12 +10,11 @@ interface Props {
   totalMinutes: number
   avgWords: number
   postsByYear: { year: number; count: number }[]
-  popularPosts: { title: string; slug: string; views: number }[]
   longestPosts: { title: string; slug: string; words: number }[]
   class?: string
 }
 
-const { totalPosts, totalWords, totalMinutes, avgWords, postsByYear, popularPosts, longestPosts } = Astro.props
+const { totalPosts, totalWords, totalMinutes, avgWords, postsByYear, longestPosts } = Astro.props
 const className = Astro.props.class
 ---
 <div class:list={[className, "w-full flex flex-col gap-4"]}>
@@ -26,9 +24,6 @@ const className = Astro.props.class
   <WidgetLayout name="年度发文" id="stats-yearly" class="bg-[var(--card-bg)]">
     <StatsYearlyChart postsByYear={postsByYear} />
   </WidgetLayout>
-  {popularPosts.length > 0 && <WidgetLayout name="热门文章" id="stats-popular" class="bg-[var(--card-bg)]">
-    <StatsPopularPosts popularPosts={popularPosts} />
-  </WidgetLayout>}
   <WidgetLayout name="最长文章" id="stats-posts" class="bg-[var(--card-bg)]">
     <StatsTopPosts longestPosts={longestPosts} />
   </WidgetLayout>
