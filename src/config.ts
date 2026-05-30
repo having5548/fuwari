@@ -82,6 +82,10 @@ export const profileConfig: ProfileConfig = {
 			icon: "fa6-brands:github",
 			url: "https://github.com/having5548",
 		},
+		{name: "Email", 
+			icon: "fa6-solid:envelope", 
+			url: "mailto:website@223910.xyz"
+		}
 	],
 };
 
