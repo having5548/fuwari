@@ -86,12 +86,12 @@ export const profileConfig: ProfileConfig = {
 		{
 			name: "Bilibli",
 			icon: "fa6-brands:bilibili",
-			url: "https://space.bilibili.com/420378171",
+			url: "https://space.bilibili.com/1989656120",
 		},
 		{
 			name: "GitHub",
 			icon: "fa6-brands:github",
-			url: "https://github.com/Besty0728",
+			url: "https://github.com/having5548",
 		},
 	],
 };
