@@ -155,7 +155,7 @@ document.getElementById('reset-cookie-consent')?.addEventListener('click',functi
 
 ## 适用法律
 
-本隐私政策受中华人民共和国法律管辖。我们努力遵守适用的数据保护法律法规。
+本隐私政策受中华人民共和国(包括港澳台地区)法律管辖。我们努力遵守适用的数据保护法律法规。
 
 ---
 
