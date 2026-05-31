@@ -1,10 +1,10 @@
-<<<<<<< HEAD
 ---
 import MainGridLayout from "@layouts/MainGridLayout.astro";
 import { Icon } from "astro-icon/components";
 import { siteConfig } from "@/config";
 const siteUrl = Astro.site!;
-const rssUrl = new URL("https://me.223910.xyz/rss.xml", siteUrl).href;
+const rssUrl = new URL("/rss.xml", siteUrl).href;
+const sitemapUrl = new URL("/sitemap-index.xml", siteUrl).href;
 ---
 
 <MainGridLayout title="API - RSS 订阅" description="通过 RSS 订阅博客更新，获取最新文章内容。">
@@ -113,10 +113,10 @@ const rssUrl = new URL("https://me.223910.xyz/rss.xml", siteUrl).href;
                 <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4">
                     <div class="flex-1">
                         <p class="text-sm text-black/60 dark:text-white/60 mb-2">Sitemap 地址</p>
-                        <code class="text-sm bg-black/5 dark:bg-white/10 px-3 py-1.5 rounded-lg break-all select-all">{new URL("/sitemap-index.xml", siteUrl).href}</code>
+                        <code class="text-sm bg-black/5 dark:bg-white/10 px-3 py-1.5 rounded-lg break-all select-all">{sitemapUrl}</code>
                     </div>
                     <a
-                        href={new URL("/sitemap-index.xml", siteUrl).href}
+                        href={sitemapUrl}
                         target="_blank"
                         class="btn-plain scale-animation rounded-lg px-5 py-2.5 font-bold bg-[var(--primary)] text-white hover:opacity-90 active:scale-95 shrink-0 whitespace-nowrap"
                     >
