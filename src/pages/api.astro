@@ -4,7 +4,7 @@ import MainGridLayout from "@layouts/MainGridLayout.astro";
 import { Icon } from "astro-icon/components";
 import { siteConfig } from "@/config";
 const siteUrl = Astro.site!;
-const rssUrl = new URL("/rss.xml", siteUrl).href;
+const rssUrl = new URL("https://me.223910.xyz/rss.xml", siteUrl).href;
 ---
 
 <MainGridLayout title="API - RSS 订阅" description="通过 RSS 订阅博客更新，获取最新文章内容。">
