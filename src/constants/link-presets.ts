@@ -31,15 +31,6 @@ export const LinkPresets: { [key in LinkPreset]: NavBarLink } = {
 		url: "https://uptime.micostar.cc/status/default",
 		external: true,
 	},
-	[LinkPreset.Monitor]: {
-		name: "流量监控",
-		url: "https://eo.micostar.cc",
-		external: true,
-	},
-	[LinkPreset.Works]: {
-		name: "作品集",
-		url: "/works/",
-	},
 	[LinkPreset.Api]: {
 		name: "API",
 		url: "/api/",
