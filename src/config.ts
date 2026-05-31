@@ -86,6 +86,11 @@ export const profileConfig: ProfileConfig = {
 		{name: "Email", 
 			icon: "fa6-solid:envelope", 
 			url: "mailto:website@223910.xyz"
+		},
+		{
+			name: "Negative",
+			icon: "fa6-solid:face-angry",
+			url: "https://223910.xyz",
 		}
 	],
 };
