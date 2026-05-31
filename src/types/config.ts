@@ -70,6 +70,7 @@ export enum LinkPreset {
 	Status = 7,
 	Monitor = 8,
 	Works = 9,
+	Api = 10,
 }
 
 export type NavBarLink = {

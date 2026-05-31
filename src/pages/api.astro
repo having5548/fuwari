@@ -1,0 +1,132 @@
+---
+import MainGridLayout from "@layouts/MainGridLayout.astro";
+import { Icon } from "astro-icon/components";
+import { siteConfig } from "@/config";
+const siteUrl = Astro.site || new URL("https://me.223910.xyz");
+const rssUrl = new URL("/rss.xml", siteUrl).href;
+---
+
+<MainGridLayout title="API - RSS 订阅" description="通过 RSS 订阅博客更新，获取最新文章内容。">
+    <div class="card-base p-6 md:p-8">
+        <div class="flex items-center gap-2 mb-6">
+            <div class="h-8 w-8 rounded-lg bg-[var(--primary)] flex items-center justify-center text-white dark:text-black/70">
+                <Icon name="material-symbols:rss-feed-rounded" class="text-[1.5rem]" />
+            </div>
+            <h1 class="text-2xl font-bold text-black dark:text-white">API</h1>
+        </div>
+
+        <div class="mb-6">
+            <p class="text-lg text-black/80 dark:text-white/80 mb-3">
+                本站提供 RSS 订阅接口，方便您通过阅读器获取最新文章更新。
+            </p>
+        </div>
+
+        <!-- RSS 订阅 -->
+        <div class="mb-8">
+            <h2 class="text-xl font-bold text-black dark:text-white mb-4 flex items-center gap-2">
+                <Icon name="material-symbols:rss-feed" class="text-[1.25rem] text-orange-500" />
+                RSS 订阅
+            </h2>
+
+            <!-- RSS 链接卡片 -->
+            <div class="bg-[var(--card-bg-secondary)] dark:bg-white/5 rounded-xl p-6 mb-6 border border-black/5 dark:border-white/10">
+                <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4 mb-4">
+                    <div class="flex-1">
+                        <p class="text-sm text-black/60 dark:text-white/60 mb-2">订阅地址</p>
+                        <code class="text-sm bg-black/5 dark:bg-white/10 px-3 py-1.5 rounded-lg break-all select-all">{rssUrl}</code>
+                    </div>
+                    <a
+                        href={rssUrl}
+                        target="_blank"
+                        class="btn-plain scale-animation rounded-lg px-5 py-2.5 font-bold bg-[var(--primary)] text-white hover:opacity-90 active:scale-95 shrink-0 whitespace-nowrap"
+                    >
+                        <Icon name="material-symbols:open-in-new-rounded" class="text-[1.1rem] mr-1.5 inline-block align-text-bottom" />
+                        打开预览
+                    </a>
+                </div>
+                <p class="text-sm text-black/50 dark:text-white/50">
+                    将以上链接添加到任意 RSS 阅读器即可订阅本站更新。
+                </p>
+            </div>
+
+            <!-- 阅读器推荐 -->
+            <h3 class="text-lg font-bold text-black dark:text-white mb-3">推荐阅读器</h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 mb-6">
+                <a href="https://feedly.com" target="_blank" class="card-base p-4 hover:border-[var(--primary)] transition-colors duration-200">
+                    <div class="font-bold text-black dark:text-white mb-1">Feedly</div>
+                    <div class="text-sm text-black/60 dark:text-white/60">跨平台 RSS 阅读器，支持 AI 摘要</div>
+                </a>
+                <a href="https://www.inoreader.com" target="_blank" class="card-base p-4 hover:border-[var(--primary)] transition-colors duration-200">
+                    <div class="font-bold text-black dark:text-white mb-1">Inoreader</div>
+                    <div class="text-sm text-black/60 dark:text-white/60">功能强大的 RSS 阅读器</div>
+                </a>
+                <a href="https://www.readwise.io/read" target="_blank" class="card-base p-4 hover:border-[var(--primary)] transition-colors duration-200">
+                    <div class="font-bold text-black dark:text-white mb-1">Readwise Reader</div>
+                    <div class="text-sm text-black/60 dark:text-white/60">高亮标注 + RSS 一体化阅读</div>
+                </a>
+                <a href="https://netnewswire.com" target="_blank" class="card-base p-4 hover:border-[var(--primary)] transition-colors duration-200">
+                    <div class="font-bold text-black dark:text-white mb-1">NetNewsWire</div>
+                    <div class="text-sm text-black/60 dark:text-white/60">macOS / iOS 原生 RSS 阅读器</div>
+                </a>
+                <a href="https://freshrss.org" target="_blank" class="card-base p-4 hover:border-[var(--primary)] transition-colors duration-200">
+                    <div class="font-bold text-black dark:text-white mb-1">FreshRSS</div>
+                    <div class="text-sm text-black/60 dark:text-white/60">开源自部署 RSS 阅读器</div>
+                </a>
+                <a href="https://miniflux.app" target="_blank" class="card-base p-4 hover:border-[var(--primary)] transition-colors duration-200">
+                    <div class="font-bold text-black dark:text-white mb-1">Miniflux</div>
+                    <div class="text-sm text-black/60 dark:text-white/60">极简自部署 RSS 阅读器</div>
+                </a>
+            </div>
+
+            <!-- 模板区：通用 RSS 展示 -->
+            <h3 class="text-lg font-bold text-black dark:text-white mb-3">RSS 模板</h3>
+            <div class="bg-[var(--card-bg-secondary)] dark:bg-white/5 rounded-xl p-6 border border-black/5 dark:border-white/10">
+                <p class="text-sm text-black/60 dark:text-white/60 mb-4">
+                    以下为本站 RSS 输出的 XML 结构模板，供开发者参考：
+                </p>
+                <pre class="text-xs bg-black/5 dark:bg-white/5 rounded-lg p-4 overflow-x-auto text-black/80 dark:text-white/80"><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;rss version="2.0"
+  xmlns:content="http://purl.org/rss/1.0/modules/content/"
+  xmlns:dc="http://purl.org/dc/elements/1.1/"
+  xmlns:atom="http://www.w3.org/2005/Atom"&gt;
+  &lt;channel&gt;
+    &lt;title&gt;{siteConfig.title} - {siteConfig.subtitle || "技术博客"}&lt;/title&gt;
+    &lt;description&gt;{siteConfig.description || siteConfig.subtitle || ""}&lt;/description&gt;
+    &lt;link&gt;{siteUrl.href}&lt;/link&gt;
+    &lt;atom:link href="{rssUrl}" rel="self" type="application/rss+xml"/&gt;
+    &lt;language&gt;{siteConfig.lang}&lt;/language&gt;
+    &lt;item&gt;
+      &lt;title&gt;文章标题&lt;/title&gt;
+      &lt;description&gt;文章摘要&lt;/description&gt;
+      &lt;link&gt;{siteUrl.href}posts/文章-slug/&lt;/link&gt;
+      &lt;pubDate&gt;发布日期 (RFC 2822)&lt;/pubDate&gt;
+      &lt;content:encoded&gt;&lt;![CDATA[文章正文 HTML]]&gt;&lt;/content:encoded&gt;
+    &lt;/item&gt;
+  &lt;/channel&gt;
+&lt;/rss&gt;</code></pre>
+            </div>
+
+            <!-- 网站地图 -->
+            <h3 class="text-lg font-bold text-black dark:text-white mb-3 mt-6">站点地图</h3>
+            <div class="bg-[var(--card-bg-secondary)] dark:bg-white/5 rounded-xl p-6 border border-black/5 dark:border-white/10">
+                <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+                    <div class="flex-1">
+                        <p class="text-sm text-black/60 dark:text-white/60 mb-2">Sitemap 地址</p>
+                        <code class="text-sm bg-black/5 dark:bg-white/10 px-3 py-1.5 rounded-lg break-all select-all">{new URL("/sitemap-index.xml", siteUrl).href}</code>
+                    </div>
+                    <a
+                        href={new URL("/sitemap-index.xml", siteUrl).href}
+                        target="_blank"
+                        class="btn-plain scale-animation rounded-lg px-5 py-2.5 font-bold bg-[var(--primary)] text-white hover:opacity-90 active:scale-95 shrink-0 whitespace-nowrap"
+                    >
+                        <Icon name="material-symbols:open-in-new-rounded" class="text-[1.1rem] mr-1.5 inline-block align-text-bottom" />
+                        打开预览
+                    </a>
+                </div>
+                <p class="text-sm text-black/50 dark:text-white/50 mt-4">
+                    站点地图可提交至 Google Search Console、Bing Webmaster 等搜索引擎。
+                </p>
+            </div>
+        </div>
+    </div>
+</MainGridLayout>

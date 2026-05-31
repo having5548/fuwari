@@ -40,4 +40,8 @@ export const LinkPresets: { [key in LinkPreset]: NavBarLink } = {
 		name: "作品集",
 		url: "/works/",
 	},
+	[LinkPreset.Api]: {
+		name: "API",
+		url: "/api/",
+	},
 };
