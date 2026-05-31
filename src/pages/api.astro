@@ -1,8 +1,9 @@
+<<<<<<< HEAD
 ---
 import MainGridLayout from "@layouts/MainGridLayout.astro";
 import { Icon } from "astro-icon/components";
 import { siteConfig } from "@/config";
-const siteUrl = Astro.site || new URL("https://me.223910.xyz");
+const siteUrl = Astro.site!;
 const rssUrl = new URL("/rss.xml", siteUrl).href;
 ---
 
