@@ -74,11 +74,6 @@ export const profileConfig: ProfileConfig = {
 	bio: ["爱我所爱，我们是彼此永远的动力"],
 	links: [
 		{
-			name: "Bilibli",
-			icon: "fa6-brands:bilibili",
-			url: "https://space.bilibili.com/1989656120",
-		},
-		{
 			name: "GitHub",
 			icon: "fa6-brands:github",
 			url: "https://github.com/having5548",
