@@ -37,7 +37,23 @@ export const siteConfig: SiteConfig = {
 	},
 	background: {
 		enable: true, // Enable background image
-		src: "https://img.micostar.cc/random", // 优先使用新 API
+		src: "https://t.alcy.cc/mp", // 无 JS 时的兜底图（单张）
+		// 多图床随机二次元壁纸：按设备方向选择，逐个尝试，失败自动换下一个
+		sources: {
+			// 电脑 / 平板横屏：横版壁纸
+			desktop: [
+				"https://t.alcy.cc/pc", // Alcy 二次元图床 · 电脑端（最快最稳，实测 0.3~2.4s）
+				"https://www.loliapi.com/acg/pc/", // LoliAPI 二次元壁纸 · 横版 2355x1473
+				"https://api.mtyqx.cn/api/random.php", // 樱图 API · 横版 1920x1080
+				"https://api.anosu.top/img/?sort=pc", // 樱道图床 · 横版（较慢，最后兜底）
+			],
+			// 手机 / 平板竖屏：竖版壁纸
+			mobile: [
+				"https://t.alcy.cc/mp", // Alcy 二次元图床 · 手机端 1280x1748
+				"https://www.loliapi.com/acg/pe/", // LoliAPI 二次元壁纸 · 竖版 2480x3508
+				"https://api.anosu.top/img/?sort=mp", // 樱道图床 · 竖版（较慢，兜底）
+			],
+		},
 		position: "center", // Background position: 'top', 'center', 'bottom'
 		size: "cover", // Background size: 'cover', 'contain', 'auto'
 		repeat: "no-repeat", // Background repeat: 'no-repeat', 'repeat', 'repeat-x', 'repeat-y'

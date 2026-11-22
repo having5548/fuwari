@@ -33,6 +33,11 @@ export type SiteConfig = {
 	background: {
 		enable: boolean;
 		src: string;
+		// 多图床：按设备方向挑一组，逐个尝试，失败自动换下一个
+		sources?: {
+			desktop?: string[];
+			mobile?: string[];
+		};
 		position?: "top" | "center" | "bottom";
 		size?: "cover" | "contain" | "auto";
 		repeat?: "no-repeat" | "repeat" | "repeat-x" | "repeat-y";

@@ -1,9 +1,9 @@
 ---
 title: 从 C#/WinUI 到 Rust + Tauri —— DeepSeek Harness 桌面端 1.0 大重写
 published: 2026-09-19T12:00:00
-updated: 2026-09-19T12:00:00
+updated: 2026-11-22T11:15:37
 description: '两周之内把整个桌面壳从 C#/WinUI 3 推倒重写成 Rust + Tauri 2,顺带跨到 Windows/macOS/Linux。记录 SameSite Cookie、注入式工具栏、版本偏斜与暂存安装这些重写路上真正踩到的坑。'
-image: ''
+image: '/images/covers/deepseek-harness-desktop-rust.webp'
 tags: [DeepSeek, DeepSeekHarness, DshDesktop, Rust, Tauri]
 draft: false
 lang: ''

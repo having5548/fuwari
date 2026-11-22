@@ -1,9 +1,9 @@
 ---
 title: 我把 DeepSeek Harness 装进了原生 Windows 窗口 —— DshDesktop 开发记录
 published: 2026-09-05T12:00:00
-updated: 2026-09-05T12:00:00
+updated: 2026-11-22T11:15:38
 description: '一个基于 WinUI 3 + WebView2 的 DeepSeek Harness 桌面客户端开发全记录:零 CLI 前置、dsh 自动安装、多源测速、崩溃自愈、插件市场,以及这背后踩过的坑。'
-image: ''
+image: '/images/covers/deepseek-harness-desktop.webp'
 tags: [DeepSeek, DeepSeekHarness, DshDesktop, 桌面开发]
 draft: false
 lang: ''

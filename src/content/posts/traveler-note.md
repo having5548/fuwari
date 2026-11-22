@@ -1,9 +1,9 @@
 ---
 title: 旅行者便签：把原神签到和实时便签塞进手表
 published: 2026-09-19T14:00:00
-updated: 2026-09-19T14:00:00
+updated: 2026-11-22T11:15:38
 description: '新项目 TravelerNote：一个 Android 端的米游社登录 + 原神签到 + 实时便签工具，还带一个跑在 REDMI Watch 5 上的手表端小程序，抬手就能看树脂和委托。'
-image: ''
+image: '/images/covers/traveler-note.webp'
 tags: [原神, 米游社, TravelerNote, Android, 手表小程序]
 draft: false
 lang: ''
