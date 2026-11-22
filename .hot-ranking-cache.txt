@@ -1,1 +1,1 @@
-claudecode_beautify,unityskills,deepwiki-unityskills,ai-studio-zhcn,unity-mcp
+traveler-note,deepseek-harness-desktop-rust,deepseek-harness-desktop
