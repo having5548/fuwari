@@ -1,7 +1,6 @@
 import { getImage } from "astro:assets";
 import { getCollection } from "astro:content";
-import { siteConfig } from "@/config";
-import { getSortedPosts } from "@/utils/content-utils";
+import { profileConfig, siteConfig } from "@/config";
 import rss from "@astrojs/rss";
 import type { RSSFeedItem } from "@astrojs/rss";
 import type { APIContext, ImageMetadata } from "astro";
@@ -11,67 +10,89 @@ import sanitizeHtml from "sanitize-html";
 
 const markdownParser = new MarkdownIt();
 
-// get dynamic import of images as a map collection
-const imagesGlob = import.meta.glob<{ default: ImageMetadata }>(
-	"/src/content/**/*.{jpeg,jpg,png,gif,webp}", // include posts and assets
-);
+// 动态导入文章内用到的图片，用于把相对路径替换为构建后的地址
+const imagesGlob = import.meta.glob("/src/content/**/*.{jpeg,jpg,png,gif,webp}");
+
+/**
+ * 整理正文：
+ * 1. 去掉与文章标题重复的首个一级标题（订阅器里标题会单独展示）；
+ * 2. 把 `::github{repo="a/b"}` 这类站点自定义指令换成普通链接，否则订阅器里会显示裸指令文本；
+ * 3. 丢弃其余未知指令行，避免 `::xxx{...}` 泄漏到阅读器。
+ */
+function normalizeBody(raw: string): string {
+	return raw
+		.replace(/^\uFEFF/, "")
+		.replace(/^\s*#\s+[^\n]*\n+/, "")
+		.replace(/::github\{repo=["']([^"']+)["']\}/g, (_match: string, repo: string) => {
+			return `[GitHub 仓库：${repo}](https://github.com/${repo})`;
+		})
+		.replace(/^\s*::[\w-]+\{[^}]*\}\s*$/gm, "");
+}
 
 export async function GET(context: APIContext) {
 	if (!context.site) {
 		throw Error("site not set");
 	}
 
-	// Use the same ordering as site listing (pinned first, then by published desc)
-	const posts = await getSortedPosts();
+	const posts = await getCollection("posts", ({ data }) => {
+		return import.meta.env.PROD ? data.draft !== true : true;
+	});
+
+	// 订阅源严格按发布时间倒序，不跟随站内「置顶优先」的排序
+	posts.sort((a, b) => {
+		return new Date(b.data.published).valueOf() - new Date(a.data.published).valueOf();
+	});
+
 	const feed: RSSFeedItem[] = [];
+	let lastBuildDate = new Date(0);
 
 	for (const post of posts) {
-		// convert markdown to html string
-		const body = markdownParser.render(post.body || "");
-		// convert html string to DOM-like structure
+		const body = markdownParser.render(normalizeBody(post.body ?? ""));
 		const html = htmlParser.parse(body);
-		// hold all img tags in variable images
 		const images = html.querySelectorAll("img");
 
 		for (const img of images) {
 			const src = img.getAttribute("src");
 			if (!src) continue;
 
-			// Handle content-relative images and convert them to built _astro paths
+			// 相对路径的文章图片：走 Astro 图片管线，替换成构建后的绝对地址
 			if (src.startsWith("./") || src.startsWith("../")) {
-				let importPath: string | null = null;
+				const importPath = src.startsWith("./")
+					? `/src/content/posts/${src.slice(2)}`
+					: `/src/content/${src.replace(/^\.\.\//, "")}`;
 
-				if (src.startsWith("./")) {
-					// Path relative to the post file directory
-					const prefixRemoved = src.slice(2);
-					importPath = `/src/content/posts/${prefixRemoved}`;
-				} else {
-					// Path like ../assets/images/xxx -> relative to /src/content/
-					const cleaned = src.replace(/^\.\.\//, "");
-					importPath = `/src/content/${cleaned}`;
-				}
-
-				const imageMod = await imagesGlob[importPath]?.()?.then(
-					(res) => res.default,
-				);
-				if (imageMod) {
-					const optimizedImg = await getImage({ src: imageMod });
-					img.setAttribute("src", new URL(optimizedImg.src, context.site).href);
+				const loader = imagesGlob[importPath];
+				if (loader) {
+					const mod = (await loader()) as { default: ImageMetadata };
+					if (mod?.default) {
+						const optimized = await getImage({ src: mod.default });
+						img.setAttribute("src", new URL(optimized.src, context.site).href);
+					}
 				}
 			} else if (src.startsWith("/")) {
-				// images starting with `/` are in public dir
+				// `public` 目录下的图片：直接拼成线上绝对地址
 				img.setAttribute("src", new URL(src, context.site).href);
 			}
+		}
+
+		const updatedAt = post.data.updated ? new Date(post.data.updated) : new Date(post.data.published);
+		if (updatedAt.valueOf() > lastBuildDate.valueOf()) {
+			lastBuildDate = updatedAt;
 		}
 
 		feed.push({
 			title: post.data.title,
 			description: post.data.description,
-			pubDate: post.data.published,
+			pubDate: new Date(post.data.published),
 			link: `/posts/${post.slug}/`,
-			// sanitize the new html string with corrected image paths
+			categories: post.data.tags,
+			customData: `<dc:creator>${profileConfig.name}</dc:creator>`,
 			content: sanitizeHtml(html.toString(), {
 				allowedTags: sanitizeHtml.defaults.allowedTags.concat(["img"]),
+				allowedAttributes: {
+					...sanitizeHtml.defaults.allowedAttributes,
+					img: ["src", "alt", "title", "width", "height", "loading"],
+				},
 			}),
 		});
 	}
@@ -81,6 +102,16 @@ export async function GET(context: APIContext) {
 		description: siteConfig.subtitle || "No description",
 		site: context.site,
 		items: feed,
-		customData: `<language>${siteConfig.lang}</language>`,
+		xmlns: {
+			atom: "http://www.w3.org/2005/Atom",
+			dc: "http://purl.org/dc/elements/1.1/",
+		},
+		customData: [
+			`<language>${siteConfig.lang}</language>`,
+			`<lastBuildDate>${lastBuildDate.toUTCString()}</lastBuildDate>`,
+			`<atom:link href="${new URL("rss.xml", context.site).href}" rel="self" type="application/rss+xml"/>`,
+			"<generator>Astro + Fuwari</generator>",
+			"<ttl>30</ttl>",
+		].join(""),
 	});
 }
