@@ -99,8 +99,8 @@ export const profileConfig: ProfileConfig = {
 			url: "mailto:website@223910.xyz"
 		},
 		{
-			name: "Negative",
-			icon: "fa6-solid:face-angry",
+			name: "导航站",
+			icon: "fa6-solid:compass",
 			url: "https://223910.xyz",
 		}
 	],
