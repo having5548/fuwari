@@ -1,1 +1,1 @@
-traveler-note,deepseek-harness-desktop-rust,deepseek-harness-desktop
+traveler-note,dsh-plugin-usage,deepseek-harness-desktop-rust,deepseek-harness-desktop
